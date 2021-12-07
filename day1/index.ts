@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
 
-const INTPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
+const INPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
 
 export default async function main() {
-  const result = await processContents(INTPUT_FILEPATH);
+  const result = await processContents(INPUT_FILEPATH);
   console.log(`Number of increases: ${result}`);
 }
 
