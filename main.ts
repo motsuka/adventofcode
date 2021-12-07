@@ -10,12 +10,16 @@ const rl = readline.createInterface({
 rl.prompt();
 
 rl.on('line', async (line: string) => {
+  let solution: Function | undefined;
   try {
-    const day = parseInt(line, 10);
-    const solution = solutions[day];
-    await solution();
+    solution = solutions[parseInt(line, 10)];
   } catch (e) {
-    console.log(e);
+    console.error(e);
+  }
+
+  if (solution) {
+    await solution();
+  } else {
     console.log(`seems like day ${line} hasn't been created yet.`);
   }
   rl.close();
