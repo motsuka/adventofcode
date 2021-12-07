@@ -17,7 +17,7 @@ async function processContents(filename: string): Promise<number> {
 
   let increasesCount = 0;
   let previousValue: number | undefined;
-  for await (const line of fileIterator as unknown as string) {
+  for await (const line of fileIterator) {
     const currentValue = parseInt(line, 10);
     if (previousValue && currentValue > previousValue) {
       ++increasesCount;
