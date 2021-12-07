@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "ts-node": "^10.4.0"
+  },
+  "scripts": {
+    "start": "npx ts-node -p main.ts"
   }
 }
