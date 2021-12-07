@@ -18,5 +18,5 @@ rl.on('line', async (line: string) => {
     console.log(e);
     console.log(`seems like day ${line} hasn't been created yet.`);
   }
-  process.exit(0);
+  rl.close();
 });
