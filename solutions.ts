@@ -3,4 +3,4 @@ import day2 from './day2';
 
 type Solution = () => Promise<void>;
 
-export default [async () => {}, day1, day2] as Solution[];
+export default [/*day0=*/ null, day1, day2] as Solution[];
