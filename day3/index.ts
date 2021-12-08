@@ -52,8 +52,8 @@ async function calculateDiagnosticReport(
     }
   }
 
-  const oxygenGeneratorRating = calculateRatingValue(report, lines, true);
-  const co2ScrubberRating = calculateRatingValue(report, lines, false);
+  const oxygenGeneratorRating = calculateRatingValue(lines, true);
+  const co2ScrubberRating = calculateRatingValue(lines, false);
 
   return {
     ...calculatePowerConsumption(report),
@@ -81,19 +81,28 @@ function calculatePowerConsumption(report: ColumnSummary[]): PowerConsumption {
  * given set of lines. Defaults to searching using most-common digit, unless
  * leastCommon is true.
  */
-function calculateRatingValue(
-  columnSummaries: ColumnSummary[],
-  lines: string[],
-  leastCommon: boolean
-): string {
+function calculateRatingValue(lines: string[], leastCommon: boolean): string {
   let candidates = lines;
-  for (let i = 0; i < columnSummaries.length; ++i) {
-    const column = columnSummaries[i];
+  for (let i = 0; i < lines[0].length; ++i) {
+    const column = candidates.reduce(
+      (columnSummary: ColumnSummary, candidate: string) => {
+        switch (candidate.charAt(i)) {
+          case '0':
+            return {zeros: columnSummary.zeros + 1, ones: columnSummary.ones};
+          case '1':
+            return {zeros: columnSummary.zeros, ones: columnSummary.ones + 1};
+          default:
+            return columnSummary;
+        }
+      },
+      {zeros: 0, ones: 0}
+    );
+
     const mostCommonDigit = column.zeros > column.ones ? '0' : '1';
-    candidates = candidates.filter(c =>
+    candidates = candidates.filter(candidate =>
       leastCommon
-        ? c.charAt(i) !== mostCommonDigit
-        : c.charAt(i) === mostCommonDigit
+        ? candidate.charAt(i) !== mostCommonDigit
+        : candidate.charAt(i) === mostCommonDigit
     );
     if (candidates.length === 1) {
       return candidates[0];
