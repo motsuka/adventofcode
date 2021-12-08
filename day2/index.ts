@@ -6,7 +6,6 @@ const INPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
 const INPUT_LINE_FORMAT = /(?<direction>\w+)\s(?<magnitude>\d+)/;
 
 type Coordinates = {x: number; y: number};
-type CoordinatesAndAim = Coordinates & {aim: number};
 
 export default async function main() {
   const position1 = await calculatePosition(openFile(INPUT_FILEPATH));
@@ -48,8 +47,9 @@ async function calculatePosition(
 
 async function calculatePositionUsingAim(
   file: readline.Interface
-): Promise<CoordinatesAndAim> {
-  let coordinates: CoordinatesAndAim = {x: 0, y: 0, aim: 0};
+): Promise<Coordinates> {
+  let aim = 0;
+  let coordinates: Coordinates = {x: 0, y: 0};
   for await (const line of file) {
     const match = line.match(INPUT_LINE_FORMAT);
     if (!match?.groups) {
@@ -60,13 +60,13 @@ async function calculatePositionUsingAim(
     switch (match.groups.direction) {
       case 'forward':
         coordinates.x = coordinates.x + magnitude;
-        coordinates.y = coordinates.y + coordinates.aim * magnitude;
+        coordinates.y = coordinates.y + aim * magnitude;
         break;
       case 'down':
-        coordinates.aim = coordinates.aim + magnitude;
+        aim = aim + magnitude;
         break;
       case 'up':
-        coordinates.aim = coordinates.aim - magnitude;
+        aim = aim - magnitude;
         break;
       default:
         throw new Error(`unexpected direction: ${match.groups.direction}`);
