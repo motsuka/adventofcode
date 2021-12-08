@@ -88,21 +88,20 @@ function calculateRatingValue(
 ): string {
   let candidates = lines;
   for (let i = 0; i < columnSummaries.length; ++i) {
+    const column = columnSummaries[i];
+    const mostCommonDigit = column.zeros > column.ones ? '0' : '1';
+    candidates = candidates.filter(c =>
+      leastCommon
+        ? c.charAt(i) !== mostCommonDigit
+        : c.charAt(i) === mostCommonDigit
+    );
     if (candidates.length === 1) {
       return candidates[0];
     }
-    const column = columnSummaries[i];
-    const hasMoreZerosThanOnes = column.zeros > column.ones;
-    // XOR these to figure out if we are searching for 0 or 1.
-    const targetDigit = hasMoreZerosThanOnes !== leastCommon ? '0' : '1';
-    candidates = candidates.filter(c => c.charAt(i) === targetDigit);
   }
-  if (candidates.length !== 1) {
-    throw new Error(
-      `Could not find ${
-        leastCommon ? 'CO2 scrubber' : 'oxygen generator'
-      } rating value!`
-    );
-  }
-  return candidates[0];
+  throw new Error(
+    `Could not find ${
+      leastCommon ? 'CO2 scrubber' : 'oxygen generator'
+    } rating value!`
+  );
 }
