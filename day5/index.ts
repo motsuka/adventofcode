@@ -1,5 +1,4 @@
 import * as path from 'path';
-import {nextTick} from 'process';
 import * as readline from 'readline';
 import {openFile} from '../util';
 
@@ -18,12 +17,10 @@ async function calculateVeryDangerousAreas(
 
   for await (const line of file) {
     const [beginning, end] = line.split(' -> ');
-    const coordinatesCoveredByVent = calculateLineCoordinates(beginning, end);
-    for (const coordinate of coordinatesCoveredByVent) {
+    for (const coordinate of calculateLineCoordinates(beginning, end)) {
       if (areasWithMultipleVents.has(coordinate)) {
         // Do nothing
       } else if (areasWithOneVent.has(coordinate)) {
-        areasWithOneVent.delete(coordinate);
         areasWithMultipleVents.add(coordinate);
       } else {
         areasWithOneVent.add(coordinate);
