@@ -1,6 +1,6 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
+import {openFile} from '../util';
 
 const INPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
 const INPUT_LINE_FORMAT = /(?<direction>\w+)\s(?<magnitude>\d+)/;
@@ -8,19 +8,16 @@ const INPUT_LINE_FORMAT = /(?<direction>\w+)\s(?<magnitude>\d+)/;
 type Coordinates = {x: number; y: number};
 
 export default async function main() {
-  const result = await processContents(INPUT_FILEPATH);
+  const result = await calculatePosition(openFile(INPUT_FILEPATH));
   console.log(`Final coordinates: ${result.x}, ${result.y}`);
   console.log(`Product: ${result.x * result.y}`);
 }
 
-async function processContents(filename: string): Promise<Coordinates> {
-  const fileIterator = readline.createInterface({
-    input: fs.createReadStream(filename),
-    crlfDelay: Infinity,
-  });
-
+async function calculatePosition(
+  file: readline.Interface
+): Promise<Coordinates> {
   let coordinates: Coordinates = {x: 0, y: 0};
-  for await (const line of fileIterator) {
+  for await (const line of file) {
     const match = line.match(INPUT_LINE_FORMAT);
     if (!match?.groups) {
       throw new Error(`unexpected statement format: ${line}`);

@@ -1,6 +1,6 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
+import {openFile} from '../util';
 
 const INPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
 
@@ -9,12 +9,7 @@ type DiagnosticReport = DiagnosticReportColumn[];
 type DiagnosticSummary = {gamma: number; epsilon: number};
 
 export default async function main() {
-  const readlineInterface = readline.createInterface({
-    input: fs.createReadStream(INPUT_FILEPATH),
-    crlfDelay: Infinity,
-  });
-
-  const result = await buildDiagnosticSummary(readlineInterface);
+  const result = await buildDiagnosticSummary(openFile(INPUT_FILEPATH));
   console.log(`Gamma rate: ${result.gamma}`);
   console.log(`Epsilon rate: ${result.epsilon}`);
   console.log(`Product: ${result.gamma * result.epsilon}`);
