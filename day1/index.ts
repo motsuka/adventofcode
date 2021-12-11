@@ -9,7 +9,7 @@ export default async function main() {
   console.log(`Number of increases with window size 1: ${singleResult}`);
 
   const trioResult = await countTrioIncreases(openFile(INPUT_FILEPATH));
-  console.log(`Number of increases with window size 1: ${trioResult}`);
+  console.log(`Number of increases with window size 3: ${trioResult}`);
 }
 
 async function countSingleIncreases(file: readline.Interface): Promise<number> {
