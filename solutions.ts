@@ -3,6 +3,7 @@ import day2 from './day2';
 import day3 from './day3';
 import day5 from './day5';
 import day10 from './day10';
+import day11 from './day11';
 
 type Solution = () => Promise<void>;
 
@@ -18,4 +19,5 @@ export default [
   /*day8=*/ null,
   /*day9=*/ null,
   day10,
+  day11,
 ] as Solution[];
