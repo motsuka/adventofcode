@@ -7,17 +7,22 @@ const INPUT_FILEPATH = path.resolve(__dirname, 'input.txt');
 type Octopus = {energyLevel: number; isFlashing: boolean};
 type Cavern = Array<Array<Octopus>>;
 type Coordinates = {x: number; y: number};
+type FlashData = {totalFlashes: number; firstSynchronizedFlash: number};
 
 export default async function main() {
-  const numFlashes = await calculateTotalFlashes(openFile(INPUT_FILEPATH));
-  console.log(`${numFlashes} flashes occurred in 100 steps`);
+  const flashData = await calculateFlashData(openFile(INPUT_FILEPATH));
+  console.log(`${flashData.totalFlashes} flashes occurred in 100 steps`);
+  console.log(
+    'the first synchronized flash occurred at step ' +
+      flashData.firstSynchronizedFlash
+  );
 }
 
 /** calculates the total # of flashes over 100 steps */
-async function calculateTotalFlashes(
+async function calculateFlashData(
   file: readline.Interface
-): Promise<number> {
-  let numFlashes = 0;
+): Promise<FlashData> {
+  let totalFlashes = 0;
   const cavern: Cavern = [];
 
   // build the initial state
@@ -33,12 +38,27 @@ async function calculateTotalFlashes(
   }
 
   // trigger a step 100 times
-  for (let i = 0; i < 100; ++i) {
-    numFlashes += processStep(cavern);
+  let i: number;
+  let firstSynchronizedFlash: number | null = null;
+  for (i = 1; i <= 100; ++i) {
+    totalFlashes += processStep(cavern);
+    if (!firstSynchronizedFlash && isSynchronizedFlash(cavern)) {
+      firstSynchronizedFlash = i;
+    }
     resetEnergyLevels(cavern);
   }
 
-  return numFlashes;
+  // keep going if we haven't yet seen a synchronized flash
+  while (!firstSynchronizedFlash) {
+    processStep(cavern);
+    if (isSynchronizedFlash(cavern)) {
+      firstSynchronizedFlash = i;
+    }
+    resetEnergyLevels(cavern);
+    ++i;
+  }
+
+  return {totalFlashes, firstSynchronizedFlash};
 }
 
 /** calculates the # of flashes a given step will cause */
@@ -139,4 +159,16 @@ function resetEnergyLevels(cavern: Cavern) {
       }
     }
   }
+}
+
+/** return true iff all octopuses are flashing at the same time */
+function isSynchronizedFlash(cavern: Cavern) {
+  for (const row of cavern) {
+    for (const octopus of row) {
+      if (!octopus.isFlashing) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
