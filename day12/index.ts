@@ -7,8 +7,6 @@ const SMALL_ROOM = /^[a-z]+$/;
 
 // TODO: do we care if this bleeds betwen runs?
 let paths = new Map<string, Set<string>>();
-// now we're getting even more hacky with global config
-let maxVisitsToSmallRoom = 0;
 
 export default async function main() {
   let numPaths = await calculateTotalPaths(
