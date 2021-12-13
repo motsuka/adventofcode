@@ -1,7 +1,7 @@
-import day1 from './day1';
-import day2 from './day2';
-import day3 from './day3';
-import day5 from './day5';
+import day01 from './day01';
+import day02 from './day02';
+import day03 from './day03';
+import day05 from './day05';
 import day10 from './day10';
 import day11 from './day11';
 import day12 from './day12';
@@ -9,16 +9,16 @@ import day12 from './day12';
 type Solution = () => Promise<void>;
 
 export default [
-  /*day0=*/ null,
-  day1,
-  day2,
-  day3,
-  /*day4=*/ null,
-  day5,
-  /*day6=*/ null,
-  /*day7=*/ null,
-  /*day8=*/ null,
-  /*day9=*/ null,
+  /*day00=*/ null,
+  day01,
+  day02,
+  day03,
+  /*day04=*/ null,
+  day05,
+  /*day06=*/ null,
+  /*day07=*/ null,
+  /*day08=*/ null,
+  /*day09=*/ null,
   day10,
   day11,
   day12,
