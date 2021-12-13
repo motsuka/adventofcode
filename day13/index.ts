@@ -37,7 +37,7 @@ async function calculateDotsAfterFolding(
 
   console.log(`${dots.size} dots before folding`);
 
-  let i = 0;
+  let i = 1;
   for await (const entry of folds) {
     let match = entry.match(FOLD_FORMAT);
     const axis = match?.groups?.axis;
