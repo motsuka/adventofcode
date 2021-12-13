@@ -8,17 +8,23 @@ const FOLD_FORMAT = /^fold along (?<axis>[xy])=(?<index>\d+)$/;
 type Dot = {x: number; y: number};
 
 export default async function main() {
-  const numDotsAfterOneFold = await calculateDotsAfterFolding(
+  const dotsAfterOneFold = await calculateDotsAfterFolding(
     openFile(INPUT_FILEPATH),
     /*maxIterations=*/ 1
   );
-  console.log(`${numDotsAfterOneFold} dots after folding once`);
+  console.log(`${dotsAfterOneFold.size} dots after folding once`);
+
+  const dotsAfterAllFolds = await calculateDotsAfterFolding(
+    openFile(INPUT_FILEPATH),
+    /*maxIterations=*/ Infinity
+  );
+  console.log(prettyPrintDots(dotsAfterAllFolds));
 }
 
 async function calculateDotsAfterFolding(
   file: readline.Interface,
   maxIterations: number
-): Promise<number> {
+): Promise<Set<string>> {
   const dots = new Set<string>();
   const folds: string[] = [];
   let readingFolds = false;
@@ -53,7 +59,7 @@ async function calculateDotsAfterFolding(
     }
   }
 
-  return dots.size;
+  return dots;
 }
 
 function performFold(dots: Set<string>, axis: string, foldIndex: number) {
@@ -77,4 +83,19 @@ function performFold(dots: Set<string>, axis: string, foldIndex: number) {
 function convertStringToDot(str: string): Dot {
   const [x, y] = str.split(',');
   return {x: parseInt(x, 10), y: parseInt(y, 10)};
+}
+
+function prettyPrintDots(dots: Set<string>): string {
+  let str = '';
+  for (let y = 0; y < 10; ++y) {
+    for (let x = 0; x < 40; ++x) {
+      if (dots.has(`${x},${y}`)) {
+        str += '#';
+      } else {
+        str += '-';
+      }
+    }
+    str += '\n';
+  }
+  return str;
 }
