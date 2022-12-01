@@ -20,6 +20,7 @@ async function findHeaviest(): number {
       if (currentLoad > heaviestLoad) {
         heaviestLoad = currentLoad;
       }
+      currentLoad = 0;
     }
   }
   return heaviestIndex;
