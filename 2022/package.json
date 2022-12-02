@@ -1,0 +1,17 @@
+{
+  "name": "adventofcode2022",
+  "version": "1.0.0",
+  "description": "Doin advent of code stuff",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "prettier": "^2.8.0"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "start": "npx ts-node -p main.ts"
+  }
+}
