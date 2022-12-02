@@ -34,7 +34,7 @@ export class Heap {
       const leftVal = this.array[left];
       const rightVal = this.array[right];
       const hasRightChild = right < this.array.length;
-      if (hasRightChild && leftVal < rightVal && this.array[current] < rightVal) {
+      if (hasRightChild && leftVal < rightVal && currentVal < rightVal) {
         this.swap(current, right);
         current = right;
       } else if (currentVal < leftVal) {
