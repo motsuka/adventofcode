@@ -12,7 +12,7 @@ export class Heap {
     let current = this.array.length - 1;
     let parent = current >> 1;
     while (parent > 0) {
-      if (this.array[current] >= this.array[parent]) {
+      if (this.array[current] < this.array[parent]) {
         return;
       }
       this.swap(current, parent);
