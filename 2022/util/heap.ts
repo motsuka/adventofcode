@@ -28,7 +28,7 @@ export class Heap {
     return itemToReturn;
   }
 
-  heapifyDown(current: number) {
+  private heapifyDown(current: number) {
     const left = current << 1;
     const leftVal = this.array[left];
     const right = left + 1;
