@@ -1,5 +1,10 @@
 import * as readline from 'readline';
-import { Outcome } from './common';
+
+enum Outcome {
+  WIN,
+  LOSE,
+  DRAW,
+}
 
 const SCORES: Map<string, number> = new Map()
   .set('X', 1)
